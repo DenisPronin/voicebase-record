@@ -1,3 +1,8 @@
 .vbs-record-buttons {
     margin: auto;
 }
+
+.button-stop-record {
+    color: #ff5260 !important;
+    opacity: 1 !important;
+}
