@@ -5,60 +5,62 @@
  * @class famvoice
  */
 angular.module('voicebaseRecord').factory('$record', [
-    function() {
+    function () {
 
         var mediaRec;
         var recordName = 'myrecording.wav';
 
-        /**
-         * Start a record
-         *
-         * @method startRecord
-         */
-        function startRecord(){
+        var startRecord = function () {
             console.log('startRecord');
             mediaRec = new Media(recordName,
-                function() {
+                function () {
                     console.log("*** new Media() success ***");
                 },
-                function(err) {
+                function (err) {
                     console.log("*** new Media() Error: " + err);
                 });
             mediaRec.startRecord();
-        }
+        };
 
-        /**
-         * Stop record
-         *
-         * @method stopRecord
-         */
-        function stopRecord(){
+        var stopRecord = function () {
             console.log('stopRecord');
             mediaRec.stopRecord();
-        }
+        };
 
-        /**
-         * Play record
-         *
-         * @method playRecord
-         */
-        function playRecord(){
+        var playRecord = function () {
             console.log('playRecord');
             var mediaFile = new Media(recordName,
-                function() {
+                function () {
                     console.log("playAudio():Audio Success");
                 },
-                function(err) {
-                    console.log("playAudio():Audio Error: "+err);
+                function (err) {
+                    console.log("playAudio():Audio Error: " + err);
                 }
             );
             // Play audio
             mediaFile.play();
-        }
+        };
+
+        var getRecord = function () {
+            return mediaRec;
+        };
+
+        var getCurrentPosition = function () {
+            if(mediaRec) {
+                mediaRec.getCurrentPosition(function () {
+
+                }, function (err) {
+
+                });
+            }
+            return (mediaRec) ? mediaRec.getCurrentPosition() : 0;
+        };
 
         return {
+            getRecord: getRecord,
+            getCurrentPosition: getCurrentPosition,
             start: startRecord,
             stop: stopRecord,
-            play:playRecord
+            play: playRecord
         };
     }]);

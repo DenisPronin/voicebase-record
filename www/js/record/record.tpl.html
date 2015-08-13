@@ -4,14 +4,17 @@
     </ion-content>
 
     <!--Footer with buttons-->
-    <ion-footer-bar align-title="center" class="bar-stable">
+    <ion-footer-bar class="bar-stable">
 
         <div class="buttons vbs-record-buttons">
             <button class="button button-icon" ng-click="toggleRecord()" ng-class="isRecord ? 'button-stop-record' : ''">
                 <i class="icon ion-record"></i>
             </button>
-            <button class="button" ng-click="playRecord()">
-                Play
+            <button class="button button-icon" ng-click="playRecord()" ng-show="showPlayBtn()">
+                <i class="icon ion-play"></i>
+            </button>
+            <button class="button button-icon" ng-click="cancel()" ng-show="hasRecord()">
+                <i class="icon ion-close"></i>
             </button>
         </div>
 
