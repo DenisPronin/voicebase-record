@@ -1,5 +1,5 @@
 angular.module('voicebaseRecord')
-    .controller('recordCtrl', ['$scope', '$state', '$ionicPlatform', 'tokensApi', function ($scope, $state, $ionicPlatform, tokensApi) {
+    .controller('recordCtrl', ['$scope', '$state', '$ionicPlatform', '$record', 'tokensApi', function ($scope, $state, $ionicPlatform, $record, tokensApi) {
 
         $scope.isRecord = false;
 
@@ -16,29 +16,16 @@ angular.module('voicebaseRecord')
             });
         };
 
-        var mediaRec;
-        var src = 'vbsRecording.wav';
-
         $scope.startRecord = function () {
-            console.log('startRecord');
-
-            if(mediaRec) {
-                mediaRec.release();
-            }
-
-            mediaRec = new Media(src, onMediaCallSuccess, onMediaCallError);
-            mediaRec.startRecord();
+            $record.start();
         };
 
         $scope.stopRecord = function () {
-            console.log('stopRecord');
-            mediaRec.stopRecord();
+            $record.stop();
         };
 
         $scope.playRecord = function () {
-            if(mediaRec) {
-                mediaRec.play();
-            }
+            $record.play();
         };
 
         function onMediaCallSuccess() {
