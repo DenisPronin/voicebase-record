@@ -9,9 +9,7 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
         $scope.isRecord = false;
         $scope.recordTimer = {
             timerId: null,
-            hours: '00',
-            minutes: '00',
-            seconds: '00'
+            seconds: 0
         };
 
         $scope.toggleRecord = function () {
@@ -44,10 +42,7 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
             var pos = 0;
             $scope.recordTimer.timerId = $interval(function () {
                 pos++;
-                var time = toHHMMSS(pos);
-                $scope.recordTimer.hours = time.hours;
-                $scope.recordTimer.minutes = time.minutes;
-                $scope.recordTimer.seconds = time.seconds;
+                $scope.recordTimer.seconds = pos;
             }, 1000)
         };
 
@@ -55,10 +50,7 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
             $scope.recordTimer.timerId = $interval(function () {
                 $record.getCurrentPosition().then(function (pos) {
                     if (pos >= 0) {
-                        var time = toHHMMSS(pos);
-                        $scope.recordTimer.hours = time.hours;
-                        $scope.recordTimer.minutes = time.minutes;
-                        $scope.recordTimer.seconds = time.seconds;
+                        $scope.recordTimer.seconds = pos;
                     }
                     else {
                         $scope.clearRecordTimer();
@@ -74,9 +66,7 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
             $interval.cancel($scope.recordTimer.timerId);
             $scope.recordTimer = {
                 timerId: null,
-                hours: '00',
-                minutes: '00',
-                seconds: '00'
+                seconds: 0
             };
         };
 
@@ -90,22 +80,6 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
 
         $scope.cancel = function () {
             $scope.clearRecordTimer();
-        };
-
-        var toHHMMSS = function (pos) {
-            var sec_num = parseInt(pos, 10); // don't forget the second param
-            var hours   = Math.floor(sec_num / 3600);
-            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-            var seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-            if (hours   < 10) {hours   = "0" + hours;}
-            if (minutes < 10) {minutes = "0" + minutes;}
-            if (seconds < 10) {seconds = "0" + seconds;}
-            return {
-                hours: hours,
-                minutes: minutes,
-                seconds: seconds
-            };
         };
 
     }]);
