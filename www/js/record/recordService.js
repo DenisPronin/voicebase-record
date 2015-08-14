@@ -5,9 +5,12 @@
  * @class famvoice
  */
 angular.module('voicebaseRecord').factory('$record', [
-    function () {
+    '$q',
+    '$timeout',
+    function ($q, $timeout) {
 
         var mediaRec;
+        var playFile;
         var recordName = 'myrecording.wav';
 
         var startRecord = function () {
@@ -29,7 +32,7 @@ angular.module('voicebaseRecord').factory('$record', [
 
         var playRecord = function () {
             console.log('playRecord');
-            var mediaFile = new Media(recordName,
+            playFile = new Media(recordName,
                 function () {
                     console.log("playAudio():Audio Success");
                 },
@@ -37,8 +40,7 @@ angular.module('voicebaseRecord').factory('$record', [
                     console.log("playAudio():Audio Error: " + err);
                 }
             );
-            // Play audio
-            mediaFile.play();
+            playFile.play();
         };
 
         var getRecord = function () {
@@ -46,14 +48,20 @@ angular.module('voicebaseRecord').factory('$record', [
         };
 
         var getCurrentPosition = function () {
-            if(mediaRec) {
-                mediaRec.getCurrentPosition(function () {
-
+            var deferred = $q.defer();
+            if (playFile) {
+                playFile.getCurrentPosition(function (position) { // in seconds
+                    deferred.resolve(position);
                 }, function (err) {
-
+                    deferred.reject(err);
                 });
             }
-            return (mediaRec) ? mediaRec.getCurrentPosition() : 0;
+            else {
+                $timeout(function () {
+                    deferred.resolve(0);
+                }, 0);
+            }
+            return deferred.promise;
         };
 
         return {
