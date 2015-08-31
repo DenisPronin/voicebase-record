@@ -1,9 +1,3 @@
-/**
- * Record service
- * @module record
- * @author Claudio A. Marrero
- * @class famvoice
- */
 angular.module('voicebaseRecord').factory('$record', [
     '$q',
     '$timeout',
@@ -47,6 +41,17 @@ angular.module('voicebaseRecord').factory('$record', [
             return mediaRec;
         };
 
+        var clearRecord = function () {
+            if(playFile) {
+                playFile.stop();
+                playFile = null;
+            }
+            if(mediaRec) {
+                mediaRec.stopRecord();
+                mediaRec = null;
+            }
+        };
+
         var getCurrentPosition = function () {
             var deferred = $q.defer();
             if (playFile) {
@@ -65,6 +70,7 @@ angular.module('voicebaseRecord').factory('$record', [
         };
 
         return {
+            clearRecord: clearRecord,
             getRecord: getRecord,
             getCurrentPosition: getCurrentPosition,
             start: startRecord,

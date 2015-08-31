@@ -79,6 +79,8 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
         };
 
         $scope.cancel = function () {
+            $scope.isRecord = false;
+            $record.clearRecord();
             $scope.clearRecordTimer();
         };
 
