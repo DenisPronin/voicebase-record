@@ -1,14 +1,20 @@
 <ion-view view-title="Sign In">
     <ion-content class="padding">
 
-        <div class="list list-inset">
-            <label class="item item-input">
-                <input type="text" placeholder="Enter token" ng-model="token">
-            </label>
+        <div class="vbs-form-error" ng-show="!form.formValid">
+            Token is required.
         </div>
-        <button class="button button-positive" ng-click="signIn()">
-            Sign In
-        </button>
+
+        <form name="loginForm" novalidate>
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input type="text" name="token" placeholder="Enter token" ng-model="form.token" required="required">
+                </label>
+            </div>
+            <button class="button button-positive" ng-click="signIn()">
+                Sign In
+            </button>
+        </form>
 
     </ion-content>
 </ion-view>

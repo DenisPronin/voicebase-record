@@ -7811,3 +7811,11 @@ a.button {
   top: 50%;
   left: 50%;
   font-size: 30px; }
+
+.vbs-form-error {
+  color: #B35555;
+  border: solid #B35555;
+  border-width: 1px 0;
+  padding: 15px 0;
+  margin-bottom: 18px;
+  text-align: center; }
