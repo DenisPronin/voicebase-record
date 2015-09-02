@@ -74,8 +74,12 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
             return !!$record.getRecord();
         };
 
-        $scope.showPlayBtn = function () {
+        $scope.isRecordReady = function () {
             return $scope.hasRecord() && !$scope.isRecord;
+        };
+
+        $scope.uploadRecord = function () {
+            $state.go("upload");
         };
 
         $scope.cancel = function () {

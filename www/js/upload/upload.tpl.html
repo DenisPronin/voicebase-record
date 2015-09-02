@@ -1,0 +1,15 @@
+<ion-view view-title="Upload">
+    <ion-content class="padding" scroll="false">
+
+        <div class="vbs-form-error" ng-show="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <ion-spinner icon="spiral" ng-show="isUpload"></ion-spinner>
+
+        <div class="upload-result" ng-show="!isUpload">
+            {{ result }}
+        </div>
+
+    </ion-content>
+</ion-view>

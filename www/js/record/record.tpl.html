@@ -14,8 +14,11 @@
             <button class="button button-icon" ng-click="toggleRecord()" ng-class="isRecord ? 'button-stop-record' : ''">
                 <i class="icon ion-record"></i>
             </button>
-            <button class="button button-icon" ng-click="playRecord()" ng-show="showPlayBtn()">
+            <button class="button button-icon" ng-click="playRecord()" ng-show="isRecordReady()">
                 <i class="icon ion-play"></i>
+            </button>
+            <button class="button button-icon" ng-click="uploadRecord()" ng-show="isRecordReady()">
+                <i class="icon ion-upload"></i>
             </button>
             <button class="button button-icon" ng-click="cancel()" ng-show="hasRecord()">
                 <i class="icon ion-close"></i>

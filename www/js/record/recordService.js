@@ -69,12 +69,71 @@ angular.module('voicebaseRecord').factory('$record', [
             return deferred.promise;
         };
 
+        var getMediaFile = function () {
+            var deferred = $q.defer();
+
+            function failGettingMedia(err){
+                console.log(err);
+                deferred.reject(err);
+            }
+
+            // setting the file system to persistent
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+                // geting the file for disk
+                fileSystem.root.getFile(recordName, null, function (fileEntry) {
+
+                    var fileUri = fileEntry.toURL();
+
+                    var options = new FileUploadOptions();
+                    options.fileKey = "media";
+                    options.fileName = fileUri.substr(fileUri.lastIndexOf('/')+1);
+                    options.mimeType = "audio/wav";
+                    options.chunkedMode = false;
+                    //options.headers = {
+                    //    'Authorization': 'Bearer vVkgLzEUrnSE5Qvyud_anHOVgS4_KEAcsAhwDbLNXgUKMuIFkBb8UwbjR-MA62vRE62YlHLO2zEuS9mayRMAIA'
+                    //};
+
+                    options.params = {
+                        access_token: 'vVkgLzEUrnSE5Qvyud_anHOVgS4_KEAcsAhwDbLNXgUKMuIFkBb8UwbjR-MA62vRE62YlHLO2zEuS9mayRMAIA'
+                    };
+
+                    var ft = new FileTransfer();
+                    ft.upload(fileUri, encodeURI("https://apis.voicebase.com/v2-beta/media"), function (data) {
+                        console.log(data);
+                    }, function (err) {
+                        console.log(err);
+                    }, options, true);
+
+                    /*
+                                         // read the file
+                                         fileEntry.file(function (file) {
+                                            var reader = new FileReader();
+                                            reader.onloadend = function(evt) {
+                                                var res = evt.target.result;
+                                                //var formData = new FormData();
+                                                //formData.append("userfile", new Blob([evt.target.result],{"type":file.type}), "uesrfile.png");
+                                                var blob = new Blob([res], {type: file.type});
+                                                deferred.resolve(blob);
+                                            };
+                                            reader.readAsDataURL(file);
+
+                                        }, failGettingMedia);
+                    */
+
+                }, failGettingMedia);
+            }, failGettingMedia);
+
+            return deferred.promise;
+        };
+
+
         return {
             clearRecord: clearRecord,
             getRecord: getRecord,
             getCurrentPosition: getCurrentPosition,
             start: startRecord,
             stop: stopRecord,
-            play: playRecord
+            play: playRecord,
+            getMediaFile: getMediaFile
         };
     }]);

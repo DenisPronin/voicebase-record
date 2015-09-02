@@ -29,6 +29,11 @@ angular.module('voicebaseRecord', ['ionic'])
                 url: '/record',
                 templateUrl: 'js/record/record.tpl.html',
                 controller: 'recordCtrl'
+            })
+            .state('upload', {
+                url: '/upload',
+                templateUrl: 'js/upload/upload.tpl.html',
+                controller: 'uploadCtrl'
             });
 
         $urlRouterProvider.otherwise('/login');
