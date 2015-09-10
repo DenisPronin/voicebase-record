@@ -5,7 +5,7 @@ angular.module('voicebaseRecord').factory('$record', [
 
         var mediaRec;
         var playFile;
-        var recordName = 'myrecording.wav';
+        var recordName = 'myrecording.mp3';
 
         var startRecord = function () {
             console.log('startRecord');

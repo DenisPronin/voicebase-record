@@ -12,7 +12,7 @@ angular.module('voicebaseRecord')
                 var options = new FileUploadOptions();
                 options.fileKey = "media";
                 options.fileName = fileUri.substr(fileUri.lastIndexOf('/')+1);
-                options.mimeType = "audio/wav";
+                options.mimeType = "audio/mp3";
                 options.chunkedMode = false;
                 options.headers = {
                     'Authorization': 'Bearer ' + token
@@ -51,10 +51,29 @@ angular.module('voicebaseRecord')
                 return deferred.promise;
             };
 
+            var getMediaUrl = function (token, mediaId) {
+                var deferred = $q.defer();
+
+                jQuery.ajax({
+                    type: 'GET',
+                    url: url + '/media/' + mediaId + '/streams?access_token=' + token,
+                    success: function (data, textStatus, request) {
+                        var mediaUrl = data.streams.original;
+                        deferred.resolve(mediaUrl);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown + ': Error ' + jqXHR.status);
+                        deferred.reject('Something goes wrong!');
+                    }
+                });
+
+                return deferred.promise;
+            };
 
             return {
                 postMedia: postMedia,
-                checkMediaFinish: checkMediaFinish
+                checkMediaFinish: checkMediaFinish,
+                getMediaUrl: getMediaUrl
             };
 
         }
