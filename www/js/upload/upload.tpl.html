@@ -1,11 +1,9 @@
 <ion-view view-title="Upload">
-    <ion-content class="padding" scroll="false">
+    <ion-content class="padding" scroll="true" overflow-scroll="true">
 
         <div class="vbs-form-error" ng-show="errorMessage">
             {{ errorMessage }}
         </div>
-
-        <ion-spinner icon="spiral" ng-show="isUpload"></ion-spinner>
 
         <div ng-if="uploadedData">
             <voicebase-media-player

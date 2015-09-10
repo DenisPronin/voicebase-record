@@ -3,18 +3,19 @@ angular.module('voicebaseRecord')
         '$scope',
         '$state',
         '$interval',
+        '$ionicLoading',
         '$record',
         'tokensApi',
         'mediaApi',
-        function ($scope, $state, $interval, $record, tokensApi, mediaApi) {
+        function ($scope, $state, $interval, $ionicLoading, $record, tokensApi, mediaApi) {
 
-            $scope.isUpload = true;
             $scope.errorMessage = '';
             $scope.uploadedData = null;
             var token = tokensApi.getToken();
             var url;
 
             var startUpload = function () {
+                showLoading();
                 $record.getMediaFile().then(function (record) {
                     if(token && record) {
                         mediaApi.postMedia(token, record).then(function (mediaStatus) {
@@ -48,7 +49,7 @@ angular.module('voicebaseRecord')
                 mediaApi.checkMediaFinish(token, mediaId)
                     .then(function (data) {
                         if (data.media && data.media.status === 'finished') {
-                            $scope.isUpload = false;
+                            hideLoading();
                             console.log(data.media);
                             $scope.uploadedData = {
                                 uploadedMedia: data.media,
@@ -57,13 +58,27 @@ angular.module('voicebaseRecord')
                             };
                             $interval.cancel(checker);
                         }
+                        else if(data.media && data.media.status === 'failed') {
+                            $interval.cancel(checker);
+                            errorHandler();
+                        }
                     }, errorHandler);
             };
 
             var errorHandler = function () {
-                $scope.isUpload = false;
+                hideLoading();
                 $scope.errorMessage = 'Something going wrong! Please try again.';
             };
+
+            var showLoading = function() {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+            };
+            var hideLoading = function(){
+                $ionicLoading.hide();
+            };
+
 
             startUpload();
         }
