@@ -7819,3 +7819,9 @@ a.button {
   padding: 15px 0;
   margin-bottom: 18px;
   text-align: center; }
+
+.jwcontrols, .jwcontrolbar {
+  display: none; }
+
+.jwplayer {
+  height: 0 !important; }
