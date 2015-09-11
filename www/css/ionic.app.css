@@ -7793,6 +7793,10 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.button-icon {
+  -webkit-transition: opacity 0s;
+  transition: opacity 0s; }
+
 .vbs-record-buttons {
   display: table !important;
   margin: auto; }
