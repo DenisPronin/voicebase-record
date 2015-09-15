@@ -15,11 +15,11 @@ angular.module('voicebaseRecord')
             jQuery('.vbs-media-player').append('<div id="vbs-console-player-wrap"></div>');
 
             var $player = jQuery('#vbs-console-player-wrap');
-            createJwPlayer();
+            createJPlayer();
 
             $player.voicebase({
-              playerId: 'player',
-              playerType: 'jwplayer',
+              playerId: 'jplayer',
+              playerType: 'jplayer',
               apiUrl: 'https://apis.voicebase.com/v2-beta/',
               mediaID: scope.mediaId,
               token: scope.token,
@@ -45,6 +45,23 @@ angular.module('voicebaseRecord')
               width: '100%',
               height: '264'
             });
+          };
+
+          var createJPlayer = function () {
+            var player = $('#jplayer-template').html();
+            jQuery('#vbs-console-player-wrap').append(player);
+
+            $("#jplayer").jPlayer({
+              ready: function () {
+                $(this).jPlayer("setMedia", {
+                  wav: scope.mediaUrl
+                });
+              },
+              errorAlerts: true,
+              swfPath: "lib/jplayer/dist/jplayer/jquery.jplayer.swf",
+              supplied: "wav"
+            });
+
           };
 
           var destroyPlayer = function () {
