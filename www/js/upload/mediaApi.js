@@ -12,7 +12,7 @@ angular.module('voicebaseRecord')
                 var options = new FileUploadOptions();
                 options.fileKey = "media";
                 options.fileName = fileUri.substr(fileUri.lastIndexOf('/')+1);
-                options.mimeType = "audio/mp3";
+                options.mimeType = "audio/wav";
                 options.chunkedMode = false;
                 options.headers = {
                     'Authorization': 'Bearer ' + token

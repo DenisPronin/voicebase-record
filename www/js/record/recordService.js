@@ -5,7 +5,7 @@ angular.module('voicebaseRecord').factory('$record', [
 
         var mediaRec;
         var playFile;
-        var recordName = 'myrecording.mp3';
+        var recordName = 'myrecording.wav';
 
         var startRecord = function () {
             console.log('startRecord');
@@ -16,6 +16,7 @@ angular.module('voicebaseRecord').factory('$record', [
                 function (err) {
                     console.log("*** new Media() Error: " + err);
                 });
+            mediaRec.setVolume(1.0);
             mediaRec.startRecord();
         };
 
@@ -34,6 +35,7 @@ angular.module('voicebaseRecord').factory('$record', [
                     console.log("playAudio():Audio Error: " + err);
                 }
             );
+            mediaRec.setVolume(1.0);
             playFile.play();
         };
 
