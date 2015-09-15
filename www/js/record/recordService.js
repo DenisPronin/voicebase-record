@@ -80,7 +80,8 @@ angular.module('voicebaseRecord').factory('$record', [
             }
 
             // setting the file system to persistent
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+            var systemType = ionic.Platform.isAndroid() ? LocalFileSystem.PERSISTENT : LocalFileSystem.TEMPORARY;
+            window.requestFileSystem(systemType, 0, function (fileSystem) {
                 // geting the file for disk
                 fileSystem.root.getFile(recordName, null, function (fileEntry) {
 
