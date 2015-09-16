@@ -1,5 +1,5 @@
 angular.module('voicebaseRecord')
-    .directive('voicebaseMediaPlayer', function () {
+    .directive('voicebaseMediaPlayer', ['mediaApi', function (mediaApi) {
       return {
         restrict: 'E',
         templateUrl: 'js/voicebase-media-player/voicebase-media-player.tpl.html',
@@ -11,7 +11,7 @@ angular.module('voicebaseRecord')
         link: function (scope) {
 
           var initPlayer = function () {
-            destroyPlayer();
+            mediaApi.destroyVoicebasePlayer();
             jQuery('.vbs-media-player').append('<div id="vbs-console-player-wrap"></div>');
 
             var $player = jQuery('#vbs-console-player-wrap');
@@ -64,12 +64,8 @@ angular.module('voicebaseRecord')
 
           };
 
-          var destroyPlayer = function () {
-            jQuery('#vbs-console-player-wrap').voicebase('destroy');
-          };
-
           initPlayer();
         }
       };
 
-    });
+    }]);

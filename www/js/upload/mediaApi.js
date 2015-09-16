@@ -70,10 +70,15 @@ angular.module('voicebaseRecord')
                 return deferred.promise;
             };
 
+            var destroyVoicebasePlayer = function () {
+                jQuery('#vbs-console-player-wrap').voicebase('destroy');
+            };
+
             return {
                 postMedia: postMedia,
                 checkMediaFinish: checkMediaFinish,
-                getMediaUrl: getMediaUrl
+                getMediaUrl: getMediaUrl,
+                destroyVoicebasePlayer: destroyVoicebasePlayer
             };
 
         }

@@ -79,6 +79,9 @@ angular.module('voicebaseRecord')
                 $ionicLoading.hide();
             };
 
+            $scope.$on('$ionicView.beforeLeave', function(){
+                mediaApi.destroyVoicebasePlayer();
+            });
 
             startUpload();
         }
