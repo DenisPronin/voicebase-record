@@ -1,8 +1,12 @@
 <ion-view view-title="Record">
     <ion-content class="padding" scroll="false">
 
-        <div class="vbs-record-timer">
+        <div class="vbs-timer" ng-if="isRecord">
             <span>{{ recordTimer.seconds | hhmmss }}</span>
+        </div>
+
+        <div class="vbs-timer" ng-if="!isRecord">
+            <span>{{ playTimer.seconds | hhmmss }}</span>
         </div>
 
     </ion-content>
@@ -14,8 +18,11 @@
             <button class="button button-icon" ng-click="toggleRecord()" ng-class="isRecord ? 'button-stop-record' : ''">
                 <i class="icon ion-record"></i>
             </button>
-            <button class="button button-icon" ng-click="playRecord()" ng-show="isRecordReady()">
+            <button class="button button-icon" ng-click="playRecord()" ng-show="isRecordReady() && !startPlaying">
                 <i class="icon ion-play"></i>
+            </button>
+            <button class="button button-icon" ng-click="pauseRecord()" ng-show="isRecordReady() && startPlaying">
+                <i class="icon ion-pause"></i>
             </button>
             <button class="button button-icon" ng-click="uploadRecord()" ng-show="isRecordReady()">
                 <i class="icon ion-upload"></i>

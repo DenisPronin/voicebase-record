@@ -7805,7 +7805,7 @@ a.button {
   color: #ff5260 !important;
   opacity: 1 !important; }
 
-.vbs-record-timer {
+.vbs-timer {
   display: table;
   margin: auto;
   -webkit-transform: translate(-50%, -50%);

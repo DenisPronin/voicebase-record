@@ -12,6 +12,11 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
             seconds: 0
         };
 
+        $scope.playTimer = {
+            timerId: null,
+            seconds: 0
+        };
+
         $scope.toggleRecord = function () {
             $scope.isRecord = !$scope.isRecord;
 
@@ -30,16 +35,25 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
 
         $scope.stopRecord = function () {
             $record.stop();
-            $scope.clearRecordTimer();
+            $scope.clearTimer('recordTimer');
         };
 
+        $scope.startPlaying = false;
         $scope.playRecord = function () {
+            $scope.startPlaying = true;
             $record.play();
             $scope.showPlayTimer();
         };
 
+        $scope.pauseRecord = function () {
+            $scope.startPlaying = false;
+            $record.pause();
+        };
+
         $scope.showRecordTimer = function () {
             var pos = 0;
+            $scope.clearTimer('playTimer');
+            $scope.clearTimer('recordTimer');
             $scope.recordTimer.timerId = $interval(function () {
                 pos++;
                 $scope.recordTimer.seconds = pos;
@@ -47,13 +61,13 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
         };
 
         $scope.showPlayTimer = function () {
-            $scope.recordTimer.timerId = $interval(function () {
+            $scope.playTimer.timerId = $interval(function () {
                 $record.getCurrentPosition().then(function (pos) {
                     if (pos >= 0) {
-                        $scope.recordTimer.seconds = pos;
+                        $scope.playTimer.seconds = pos;
                     }
                     else {
-                        $scope.clearRecordTimer();
+                        $scope.clearTimer('playTimer');
                     }
                 }, function (err) {
                     console.log('Error: ' + err);
@@ -62,9 +76,10 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
 
         };
 
-        $scope.clearRecordTimer = function () {
-            $interval.cancel($scope.recordTimer.timerId);
-            $scope.recordTimer = {
+        $scope.clearTimer = function (timerName) {
+            $scope.startPlaying = false;
+            $interval.cancel($scope[timerName].timerId);
+            $scope[timerName] = {
                 timerId: null,
                 seconds: 0
             };
@@ -85,7 +100,8 @@ angular.module('voicebaseRecord').controller('recordCtrl', [
         $scope.cancel = function () {
             $scope.isRecord = false;
             $record.clearRecord();
-            $scope.clearRecordTimer();
+            $scope.clearTimer('playTimer');
+            $scope.clearTimer('recordTimer');
         };
 
     }]);

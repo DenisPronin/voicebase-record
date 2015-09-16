@@ -9,6 +9,7 @@ angular.module('voicebaseRecord').factory('$record', [
 
         var startRecord = function () {
             console.log('startRecord');
+            clearRecord();
             mediaRec = new Media(recordName,
                 function () {
                     console.log("*** new Media() success ***");
@@ -27,16 +28,23 @@ angular.module('voicebaseRecord').factory('$record', [
 
         var playRecord = function () {
             console.log('playRecord');
-            playFile = new Media(recordName,
-                function () {
-                    console.log("playAudio():Audio Success");
-                },
-                function (err) {
-                    console.log("playAudio():Audio Error: " + err);
-                }
-            );
+            if(!playFile) {
+                playFile = new Media(recordName,
+                    function () {
+                        console.log("playAudio():Audio Success");
+                    },
+                    function (err) {
+                        console.log("playAudio():Audio Error: " + err);
+                    }
+                );
+            }
             mediaRec.setVolume(1.0);
             playFile.play();
+        };
+
+        var pauseRecord = function () {
+            console.log('pauseRecord');
+            playFile.pause();
         };
 
         var getRecord = function () {
@@ -65,7 +73,7 @@ angular.module('voicebaseRecord').factory('$record', [
             }
             else {
                 $timeout(function () {
-                    deferred.resolve(0);
+                    deferred.resolve(-1);
                 }, 0);
             }
             return deferred.promise;
@@ -101,6 +109,7 @@ angular.module('voicebaseRecord').factory('$record', [
             start: startRecord,
             stop: stopRecord,
             play: playRecord,
+            pause: pauseRecord,
             getMediaFile: getMediaFile
         };
     }]);
