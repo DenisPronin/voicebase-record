@@ -31,7 +31,8 @@ angular.module('voicebaseRecord')
               showPredictionsBlock: true,
               actionFlag: {
                 downloadMedia: false,
-                downloadTranscript: false
+                downloadTranscript: false,
+                print: false
               }
             });
           };
